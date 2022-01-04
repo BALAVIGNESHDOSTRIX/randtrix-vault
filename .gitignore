@@ -1,0 +1,7 @@
+# created by virtualenv automatically
+__pycache__
+Lib
+Scripts
+randtrix_db.sqlite
+.index
+venv
