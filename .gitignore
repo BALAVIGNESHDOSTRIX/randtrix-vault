@@ -3,5 +3,5 @@ __pycache__
 Lib
 Scripts
 randtrix_db.sqlite
-.index
+.idea
 venv
