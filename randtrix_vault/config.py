@@ -1,4 +1,3 @@
-
 """
 ################################################################
 #                     THE RANDTRIX VAULT                        #
@@ -10,6 +9,5 @@
 #################################################################
 """
 
-class AESEncryptionException(Exception):pass
-class RandtrixException(Exception):pass
-
+ENCODE_RANGE = 16
+KEY_SIZE = 32

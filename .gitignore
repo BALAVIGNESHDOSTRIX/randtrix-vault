@@ -5,3 +5,4 @@ Scripts
 randtrix_db.sqlite
 .idea
 venv
+test.py
