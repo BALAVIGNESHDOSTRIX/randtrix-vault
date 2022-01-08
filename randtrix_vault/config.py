@@ -9,5 +9,6 @@
 #################################################################
 """
 
+## DO NOT CHANGE THIS CONFIGURATION
 ENCODE_RANGE = 16
 KEY_SIZE = 32
