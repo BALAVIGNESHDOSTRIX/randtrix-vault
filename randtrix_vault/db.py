@@ -25,16 +25,17 @@ class RandtrixManager(Manager):
 class RandtrixModel(Model): pass
 
 class RandtrixDB(RandtrixModel):
-    # __name__ = 'randtrix_table'
 
     profile_id = str
     profile_pass = str
     tags = str
+    verify_hash = str
 
     def __init__(self, kwargs={}):
         self.profile_id = kwargs.get('profile_id')
         self.profile_pass = kwargs.get('profile_pass')
         self.tags = kwargs.get('tags')
+        self.verify_hash = kwargs.get('verify_hash')
 
 
 class RandtrixDBManager:
@@ -53,7 +54,16 @@ class RandtrixDBManager:
     @staticmethod
     def get_by_profile_id(kwargs):
         RandtrixDB.db = RandtrixDBManager.initialize_db()
-        x = RandtrixDB.db.execute('SELECT * FROM RandtrixDB WHERE profile_id LIKE "{pro_id}"'.format(pro_id=kwargs.get('profile_id')))
+        x = RandtrixDB.db.execute('SELECT * FROM RandtrixDB WHERE profile_id LIKE "{pro_id}" limit 1'.format(pro_id=kwargs.get('profile_id')))
+        rows = []
+        for row in x.fetchall():
+            rows.append(dict(row))
+        return rows
+
+    @staticmethod
+    def get_by_verify_hash(kwargs):
+        RandtrixDB.db = RandtrixDBManager.initialize_db()
+        x = RandtrixDB.db.execute('SELECT verify_hash FROM RandtrixDB WHERE id = "{pro_id}"'.format(pro_id=kwargs.get('id')))
         rows = []
         for row in x.fetchall():
             rows.append(dict(row))

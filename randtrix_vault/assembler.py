@@ -11,6 +11,7 @@
 
 from .db import RandtrixDBManager
 from .mechanic import *
+from .tools import *
 
 class RandtrixAssembler:
 
@@ -21,21 +22,26 @@ class RandtrixAssembler:
                                             sec_pass=kwargs.get('second_pass'),
                                             thd_pass=kwargs.get('third_pass'))
         encrypted_msg = MechanicObj.encrypt_pass(password=kwargs.get('profile_pass'))
+        data = kwargs.get('first_pass') + kwargs.get('second_pass') + kwargs.get('third_pass') + kwargs.get('seed')
+        sha256_verify_hash = RandtrixTools.generate_verify_hash(data)
         entry_id = RandtrixDBManager.create({'profile_id': kwargs.get('profile_id'),
                                              'profile_pass': encrypted_msg,
+                                             'verify_hash': sha256_verify_hash,
                                              'tags': kwargs.get('tags')})
         return entry_id
 
     @staticmethod
     def get_profile_pass(kwargs={}):
         data = RandtrixDBManager.get_by_profile_id(kwargs)
-        decrypted_l = []
-        if data:
-            for entry in data:
-                MechanicObj = RandtrixPasswordMechanic(seed_value=kwargs.get('six_d_seed'),
-                                                       frst_pass=kwargs.get('first_secret'),
-                                                       sec_pass=kwargs.get('second_secret'),
-                                                       thd_pass=kwargs.get('third_secret'))
-                decrypt_pass = MechanicObj.decrypt_pass(entry.get('profile_pass'))
-                decrypted_l.append(decrypt_pass)
-        return decrypted_l
+        if not data:
+            return ""
+        MechanicObj = RandtrixPasswordMechanic(seed_value=kwargs.get('six_d_seed'),
+                                               frst_pass=kwargs.get('first_secret'),
+                                               sec_pass=kwargs.get('second_secret'),
+                                               thd_pass=kwargs.get('third_secret'))
+        combinate = kwargs.get('first_secret') + kwargs.get('second_secret') + kwargs.get('third_secret') + kwargs.get('six_d_seed')
+        sha256_verify_hash = RandtrixTools.generate_verify_hash(combinate)
+        if sha256_verify_hash == data[0].get('verify_hash'):
+            return MechanicObj.decrypt_pass(data[0].get('profile_pass'))
+        else:
+            return "null"

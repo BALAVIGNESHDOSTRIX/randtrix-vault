@@ -15,7 +15,7 @@ from .exceptions import *
 from .config import *
 
 class AES16256Codec:
-    def __init__(self, data: str, key: str, encode: bool=True) -> None:
+    def __init__(self, data: str, key: str, encrypted_data: str=" ", encode: bool=True) -> None:
         if (str(data).endswith('.') and encode) or (str(data).startswith('.') and encode):
             raise AESEncryptionException("Please do not enter the '.' endswith or '.' startswith passwords")
         if '_rand_encode_sep_' in data and not encode:
@@ -23,7 +23,7 @@ class AES16256Codec:
         self.data = []
         self.key = key[:KEY_SIZE]
         self.fernet = pyaes.AES(self.key.encode('utf-8'))
-
+        self.encrypted_data = encrypted_data
 
         temp_data = [ord(c) for c in data]
         if not encode:
@@ -38,7 +38,6 @@ class AES16256Codec:
                         self.data.append(k)
                     else:
                         self.data.append(AES16256Codec.safe_imputer(k))
-
 
     @staticmethod
     def safe_imputer(list_d: List) -> List:

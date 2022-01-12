@@ -11,6 +11,8 @@
 
 from typing import *
 from colorama import init, Fore, Back, Style
+from hashlib import sha256
+from .config import *
 
 class RandtrixTools:
     """ Randtrix Tools """
@@ -31,7 +33,18 @@ class RandtrixTools:
                 print("Profile not saved correctly")
 
         if t == 'get':
-            if isinstance(data, list):
-                print("Profile ID:",  Style.BRIGHT + Fore.CYAN + profile_id + '\x00')
-                print("Profile pass:", Style.BRIGHT + Fore.YELLOW + data[0] + '\x00')
+            if data and isinstance(data, str):
+                if data != "null":
+                    print("Profile ID:",  Style.BRIGHT + Fore.CYAN + profile_id + '\x00')
+                    print("Profile pass:", Style.BRIGHT + Fore.YELLOW + data + '\x00')
+                else:
+                    print(Style.BRIGHT + Fore.RED + "Incorrect Password Combination entered...." + '\x00')
+            elif not data:
+                print("Profile ID:",  Style.BRIGHT + Fore.CYAN + profile_id + " not found" + '\x00')
 
+
+
+    @staticmethod
+    def generate_verify_hash(data):
+        data = VERIFY_HASH + data
+        return sha256(data.encode('utf-8')).hexdigest()

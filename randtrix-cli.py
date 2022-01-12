@@ -38,8 +38,7 @@ class RandtrixCLI(cmd2.Cmd):
                 'tags': args.tags
             }
             record_id = RandtrixAssembler.create_new_profile_entry(vals)
-            print(record_id)
-            RandtrixTools.parse_string(record_id)
+            RandtrixTools.parse_string(args.profile_id,record_id)
 
         if args.command == 'rd_profile_trix':
             vals = {
@@ -50,7 +49,6 @@ class RandtrixCLI(cmd2.Cmd):
                 'third_secret': args.third_secret,
             }
             data = RandtrixAssembler.get_profile_pass(vals)
-            # print(data)
             RandtrixTools.parse_string(args.profile_id, data, t='get')
 
     randtrix_parser = argparse.ArgumentParser(prog="randtrix",
