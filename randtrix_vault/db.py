@@ -66,7 +66,7 @@ class RandtrixDBManager:
         RandtrixDB.db = RandtrixDBManager.initialize_db()
         x = RandtrixDB.db.execute(
             'SELECT * FROM RandtrixDB WHERE profile_id LIKE "{pro_id}" limit 1'.format(pro_id=kwargs.get('profile_id')))
-        return [row for row in x.fetchall()]
+        return [dict(row) for row in x.fetchall()]
 
     @staticmethod
     def get_by_verify_hash(kwargs: Any = None) -> List:
@@ -75,4 +75,4 @@ class RandtrixDBManager:
         RandtrixDB.db = RandtrixDBManager.initialize_db()
         x = RandtrixDB.db.execute(
             'SELECT verify_hash FROM RandtrixDB WHERE id = "{pro_id}"'.format(pro_id=kwargs.get('id')))
-        return [row for row in x.fetchall()]
+        return [dict(row) for row in x.fetchall()]

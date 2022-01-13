@@ -66,7 +66,7 @@ class RandtrixCLI(cmd2.Cmd):
     subparser.add_argument('first_secret', help='First Secret', default=None)
     subparser.add_argument('second_secret', help='Second Secret', default=None)
     subparser.add_argument('third_secret', help='Third Secret', default=None)
-    subparser.add_argument('tags', help='Tags', default=None)
+    subparser.add_argument('--tags', help='Tags', default=None)
 
     subparser = subparsers.add_parser('rd_profile_trix', help='Get Password Entry')
     subparser.add_argument('profile_id', help='Profile ID', default=None)

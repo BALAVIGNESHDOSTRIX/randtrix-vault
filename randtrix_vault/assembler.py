@@ -23,10 +23,10 @@ class RandtrixAssembler:
         if kwargs is None:
             kwargs = {}
         seed_value = 0
-        MechanicObj = RandtrixPasswordMechanic(seed_value=kwargs.get('seed'),
-                                               frst_pass=kwargs.get('first_pass'),
-                                               sec_pass=kwargs.get('second_pass'),
-                                               thd_pass=kwargs.get('third_pass'))
+        MechanicObj = RandtrixPasswordMechanic(seed_value=kwargs.get('six_d_seed'),
+                                               frst_pass=kwargs.get('first_secret'),
+                                               sec_pass=kwargs.get('second_secret'),
+                                               thd_pass=kwargs.get('third_secret'))
         encrypted_msg = MechanicObj.encrypt_pass(password=kwargs.get('profile_pass'))
         try:
             seed_value = sum([int(x) for x in kwargs.get('six_d_seed')])
@@ -37,7 +37,7 @@ class RandtrixAssembler:
         entry_id = RandtrixDBManager.create({'profile_id': kwargs.get('profile_id'),
                                              'profile_pass': encrypted_msg,
                                              'verify_hash': sha256_verify_hash,
-                                             'tags': kwargs.get('tags')})
+                                             'tags': kwargs.get('tags') or 'null'})
         return entry_id
 
     @staticmethod
