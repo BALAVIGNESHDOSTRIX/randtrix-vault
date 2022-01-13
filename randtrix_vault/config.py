@@ -19,3 +19,9 @@ VERIFY_HASH = "5da1cd00651"
 ## DB CONFIG
 DB_NAME = 'randtrix_db'
 DB_FILE = DB_NAME + '.' + 'sqlite'
+
+# MISC CONFIG
+SEPARATOR_KEY = '_rand_encode_sep_'
+SAFT_IMPUTER_CHR = '.'
+BINARY_RANDOM_SEED = '100000'
+

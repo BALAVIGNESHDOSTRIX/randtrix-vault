@@ -29,10 +29,10 @@ class RandtrixCLI(cmd2.Cmd):
     def randtrix(self, args):
         if args.command == 'cr_profile_trix':
             vals = {
-                'seed': args.six_d_seed,
-                'first_pass': args.first_secret,
-                'second_pass': args.second_secret,
-                'third_pass': args.third_secret,
+                'six_d_seed': args.six_d_seed,
+                'first_secret': args.first_secret,
+                'second_secret': args.second_secret,
+                'third_secret': args.third_secret,
                 'profile_pass': args.profile_pass,
                 'profile_id': args.profile_id,
                 'tags': args.tags

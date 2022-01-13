@@ -17,10 +17,11 @@ from .config import *
 
 class AES16256Codec:
     def __init__(self, data: str, key: str, encrypted_data: str = " ", encode: bool = True) -> None:
-        if (str(data).endswith('.') and encode) or (str(data).startswith('.') and encode):
-            raise AESEncryptionException("Please do not enter the '.' endswith or '.' startswith passwords")
-        if '_rand_encode_sep_' in data and not encode:
-            data = ''.join(str(data).split('_rand_encode_sep_'))
+        if (str(data).endswith(SAFT_IMPUTER_CHR) and encode) or (str(data).startswith(SAFT_IMPUTER_CHR) and encode):
+            raise AESEncryptionException("Please do not enter the '{sf_imp}' endswith or '{sf_imp}' startswith "
+                                         "passwords".format(sf_imp=SAFT_IMPUTER_CHR))
+        if SEPARATOR_KEY in data and not encode:
+            data = ''.join(str(data).split(SEPARATOR_KEY))
         self.data = []
         self.key = key[:KEY_SIZE]
         self.fernet = pyaes.AES(self.key.encode('utf-8'))
@@ -44,7 +45,7 @@ class AES16256Codec:
     def safe_imputer(list_d: List) -> List:
         initial_size = len(list_d)
         while initial_size < ENCODE_RANGE:
-            list_d.append(ord('.'))
+            list_d.append(ord(SAFT_IMPUTER_CHR))
             initial_size += 1
         return list_d
 
@@ -56,7 +57,7 @@ class AES16256Codec:
             for enc_code in enc_code_l:
                 encrypted_string += chr(enc_code)
             if index != size_of_enc_string:
-                encrypted_string += '_rand_encode_sep_'
+                encrypted_string += SEPARATOR_KEY
         return encrypted_string
 
     def decrypt(self) -> str:
@@ -67,7 +68,7 @@ class AES16256Codec:
                 decrypted_string += chr(dec_code)
         decrypted_string = decrypted_string[::-1]
         while True:
-            if decrypted_string.startswith('.'):
+            if decrypted_string.startswith(SAFT_IMPUTER_CHR):
                 decrypted_string = decrypted_string[1:]
             else:
                 break

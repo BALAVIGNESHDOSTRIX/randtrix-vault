@@ -19,6 +19,7 @@ from .tools import *
 
 class RandtrixPasswordMechanic:
     """ Randtrix Password Mechanic """
+
     def __init__(self, seed_value: int = 0, frst_pass: str = "", sec_pass: str = "", thd_pass: str = "") -> None:
         self.seed_value = str(seed_value)
         self.passwrd_lst = [frst_pass, sec_pass, thd_pass]
@@ -34,7 +35,7 @@ class RandtrixPasswordMechanic:
         for index, pas in enumerate(self.passwrd_lst):
             inx_combinator = RandtrixTools.index_manipulate(index)
             random.seed(int(self.seed_value[inx_combinator[0]]) + int(self.seed_value[inx_combinator[1]]))
-            rand_int_l.append(random.randint(index, int('100000', 2)))
+            rand_int_l.append(random.randint(index, int(BINARY_RANDOM_SEED, 2)))
         return rand_int_l
 
     def hash_2_salt(self) -> Any:
