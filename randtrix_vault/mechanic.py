@@ -40,8 +40,8 @@ class RandtrixPasswordMechanic:
     def hash_2_salt(self) -> Any:
         pass_hash = ""
         rand_int_l = self.randomize()
-        for index, hash in enumerate(self.pass_2_hash()):
-            pass_hash += hash[index:rand_int_l[index]]
+        for index, hash_ in enumerate(self.pass_2_hash()):
+            pass_hash += hash_[index:rand_int_l[index]]
         return sha256(pass_hash.encode('utf-8')).hexdigest()
 
     def encrypt_pass(self, password: str) -> str:

@@ -12,15 +12,19 @@
 from .db import RandtrixDBManager
 from .mechanic import *
 from .tools import *
+from typing import *
+
 
 class RandtrixAssembler:
 
     @staticmethod
-    def create_new_profile_entry(kwargs={}):
+    def create_new_profile_entry(kwargs: Any = None) -> int | str:
+        if kwargs is None:
+            kwargs = {}
         MechanicObj = RandtrixPasswordMechanic(seed_value=kwargs.get('seed'),
-                                            frst_pass=kwargs.get('first_pass'),
-                                            sec_pass=kwargs.get('second_pass'),
-                                            thd_pass=kwargs.get('third_pass'))
+                                               frst_pass=kwargs.get('first_pass'),
+                                               sec_pass=kwargs.get('second_pass'),
+                                               thd_pass=kwargs.get('third_pass'))
         encrypted_msg = MechanicObj.encrypt_pass(password=kwargs.get('profile_pass'))
         data = kwargs.get('first_pass') + kwargs.get('second_pass') + kwargs.get('third_pass') + kwargs.get('seed')
         sha256_verify_hash = RandtrixTools.generate_verify_hash(data)
@@ -31,7 +35,9 @@ class RandtrixAssembler:
         return entry_id
 
     @staticmethod
-    def get_profile_pass(kwargs={}):
+    def get_profile_pass(kwargs: Any = None) -> str | None:
+        if kwargs is None:
+            kwargs = {}
         data = RandtrixDBManager.get_by_profile_id(kwargs)
         if not data:
             return ""

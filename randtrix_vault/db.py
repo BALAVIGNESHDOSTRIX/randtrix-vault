@@ -10,10 +10,13 @@
 """
 
 from .orm import Manager, Model, Database
+from .config import *
+from typing import *
+
 
 class RandtrixManager(Manager):
 
-    def get_by_profile_id(self, profile_id=''):
+    def get_by_profile_id(self, profile_id='') -> object:
         sql = 'SELECT * FROM {tb} WHERE profile_id LIKE %{pro_id}% = ?'.format(tb=self.table_name, pro_id=profile_id)
         result = self.db.execute(sql)
         row = result.fetchone()
@@ -22,16 +25,19 @@ class RandtrixManager(Manager):
             raise ValueError(msg)
         return self.create(**row)
 
+
 class RandtrixModel(Model): pass
 
-class RandtrixDB(RandtrixModel):
 
+class RandtrixDB(RandtrixModel):
     profile_id = str
     profile_pass = str
     tags = str
     verify_hash = str
 
-    def __init__(self, kwargs={}):
+    def __init__(self, kwargs: Any = None) -> None:
+        if kwargs is None:
+            kwargs = {}
         self.profile_id = kwargs.get('profile_id')
         self.profile_pass = kwargs.get('profile_pass')
         self.tags = kwargs.get('tags')
@@ -41,30 +47,32 @@ class RandtrixDB(RandtrixModel):
 class RandtrixDBManager:
 
     @staticmethod
-    def initialize_db():
-        return Database('randtrix_db.sqlite')
+    def initialize_db() -> Any:
+        return Database(DB_FILE)
 
     @staticmethod
-    def create(kwargs={}):
+    def create(kwargs: Any = None) -> int | str:
+        if kwargs is None:
+            kwargs = {}
         RandtrixDB.db = RandtrixDBManager.initialize_db()
         trix = RandtrixDB(kwargs).save()
         trix.db.commit()
         return trix.id
 
     @staticmethod
-    def get_by_profile_id(kwargs):
+    def get_by_profile_id(kwargs: Any = None) -> List:
+        if kwargs is None:
+            kwargs = {}
         RandtrixDB.db = RandtrixDBManager.initialize_db()
-        x = RandtrixDB.db.execute('SELECT * FROM RandtrixDB WHERE profile_id LIKE "{pro_id}" limit 1'.format(pro_id=kwargs.get('profile_id')))
-        rows = []
-        for row in x.fetchall():
-            rows.append(dict(row))
-        return rows
+        x = RandtrixDB.db.execute(
+            'SELECT * FROM RandtrixDB WHERE profile_id LIKE "{pro_id}" limit 1'.format(pro_id=kwargs.get('profile_id')))
+        return [row for row in x.fetchall()]
 
     @staticmethod
-    def get_by_verify_hash(kwargs):
+    def get_by_verify_hash(kwargs: Any = None) -> List:
+        if kwargs is None:
+            kwargs = {}
         RandtrixDB.db = RandtrixDBManager.initialize_db()
-        x = RandtrixDB.db.execute('SELECT verify_hash FROM RandtrixDB WHERE id = "{pro_id}"'.format(pro_id=kwargs.get('id')))
-        rows = []
-        for row in x.fetchall():
-            rows.append(dict(row))
-        return rows
+        x = RandtrixDB.db.execute(
+            'SELECT verify_hash FROM RandtrixDB WHERE id = "{pro_id}"'.format(pro_id=kwargs.get('id')))
+        return [row for row in x.fetchall()]

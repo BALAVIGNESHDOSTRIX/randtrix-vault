@@ -3,7 +3,6 @@ from colorama import init, Fore, Back, Style
 from randtrix_vault.assembler import *
 from randtrix_vault.tools import *
 
-
 init(autoreset=True)
 
 banner = """
@@ -16,6 +15,7 @@ banner = """
 # VERSION: 0.1.0                                                #
 #################################################################
 """
+
 
 class RandtrixCLI(cmd2.Cmd):
     def __init__(self):
@@ -38,7 +38,7 @@ class RandtrixCLI(cmd2.Cmd):
                 'tags': args.tags
             }
             record_id = RandtrixAssembler.create_new_profile_entry(vals)
-            RandtrixTools.parse_string(args.profile_id,record_id)
+            RandtrixTools.parse_string(args.profile_id, record_id)
 
         if args.command == 'rd_profile_trix':
             vals = {
@@ -82,6 +82,7 @@ class RandtrixCLI(cmd2.Cmd):
         func = getattr(args, "func", None)
         if func is not None:
             func(self, args)
+
 
 cli = RandtrixCLI()
 cli.debug = True

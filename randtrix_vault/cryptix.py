@@ -14,8 +14,9 @@ from typing import *
 from .exceptions import *
 from .config import *
 
+
 class AES16256Codec:
-    def __init__(self, data: str, key: str, encrypted_data: str=" ", encode: bool=True) -> None:
+    def __init__(self, data: str, key: str, encrypted_data: str = " ", encode: bool = True) -> None:
         if (str(data).endswith('.') and encode) or (str(data).startswith('.') and encode):
             raise AESEncryptionException("Please do not enter the '.' endswith or '.' startswith passwords")
         if '_rand_encode_sep_' in data and not encode:
