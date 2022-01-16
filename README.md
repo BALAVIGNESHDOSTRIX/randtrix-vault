@@ -16,7 +16,7 @@ randtrix-cli> randtrix rd_profile_trix 123@gmil.com 453678 protect1 protect2 pro
 randtrix-cli> randtrix rd_profile_trix 123@gmil.com 546378 protect1 protect2 protect 
 ```
 ## Note
-1. In the above example when reading the profile_id(123@gmil.com) for the password you can give the 6-digit random seed (546387 or 453678), every 2 places can be interchangeable (45,36,78) like example when creating 6 digit seed is (453678) = (45,36,78) == (54 or 45, 36 or 63,78 or 87) = 543687.
+1. In the above example when reading the profile_id(123@gmil.com). you can give the 6-digit random seed (546387 or 453678), every 2 places can be interchangeable (45,36,78) like example when creating 6 digit seed is (453678) = (45,36,78) == (54 or 45, 36 or 63,78 or 87) = 543687.
 when reading you can give the following like
 546387,
 453687,
