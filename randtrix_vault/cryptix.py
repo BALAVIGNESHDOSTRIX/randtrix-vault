@@ -24,7 +24,7 @@ class AES16256Codec:
             data = ''.join(str(data).split(SEPARATOR_KEY))
         self.data = []
         self.key = key[:KEY_SIZE]
-        self.fernet = pyaes.AES(self.key.encode('utf-8'))
+        self.aes_codec = pyaes.AES(self.key.encode('utf-8'))
         self.encrypted_data = encrypted_data
 
         temp_data = [ord(c) for c in data]
@@ -51,7 +51,7 @@ class AES16256Codec:
 
     def encrypt(self) -> str:
         encrypted_string = ""
-        enc_lst = [self.fernet.encrypt(data_seq) for data_seq in self.data]
+        enc_lst = [self.aes_codec.encrypt(data_seq) for data_seq in self.data]
         size_of_enc_string = len(enc_lst) - 1
         for index, enc_code_l in enumerate(enc_lst):
             for enc_code in enc_code_l:
@@ -62,7 +62,7 @@ class AES16256Codec:
 
     def decrypt(self) -> str:
         decrypted_string = ""
-        dec_lst = [self.fernet.decrypt(data_seq) for data_seq in self.data]
+        dec_lst = [self.aes_codec.decrypt(data_seq) for data_seq in self.data]
         for index, dec_code_l in enumerate(dec_lst):
             for a_index, dec_code in enumerate(dec_code_l):
                 decrypted_string += chr(dec_code)
