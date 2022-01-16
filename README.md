@@ -1,14 +1,14 @@
 # randtrix-vault
 This vault program is used to highly secure the passwords by a combination of mechanisms and the used mechanism for the protection is just a fun idea & strong protection.
 
-# Features
+## Features
 1. create the profile with a password
 2. read the profile with a password
 3. Inbuilt database
 4. 3 steps high secure key generation mechanism
 5. beautiful CLI control
 
-# Usage
+## Usage
 ``` 
 randtrix-cli> randtrix cr_profile_trix 123@gmil.com test@123 453678 protect1 protect2 protect --tags mail
 randtrix-cli> randtrix rd_profile_trix 123@gmil.com 453678 protect1 protect2 protect 
@@ -25,7 +25,7 @@ these combinations are valid for (453678)
 
 2. when reading 3 separate passwords should be the same as used when creating the profile_id
 
-# Console example
+## Console example
 <img src="screens/cli_ex.png" height="400" width="800"> <span/>
 
 ## Used ORM 
