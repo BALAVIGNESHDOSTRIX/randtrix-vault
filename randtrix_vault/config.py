@@ -25,3 +25,8 @@ SEPARATOR_KEY = '_rand_encode_sep_'
 SAFT_IMPUTER_CHR = '.'
 BINARY_RANDOM_SEED = '100000'
 
+# DB ALERT MSG
+DB_MSG = {
+    'aex': 'profile_id: {profile_id} - Already exists'
+}
+

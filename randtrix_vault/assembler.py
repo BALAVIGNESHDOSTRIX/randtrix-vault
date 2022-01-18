@@ -23,6 +23,9 @@ class RandtrixAssembler:
         if kwargs is None:
             kwargs = {}
         seed_value = 0
+        data = RandtrixDBManager.get_by_profile_id(kwargs)
+        if data:
+            return DB_MSG.get('aex')
         MechanicObj = RandtrixPasswordMechanic(seed_value=kwargs.get('six_d_seed'),
                                                frst_pass=kwargs.get('first_secret'),
                                                sec_pass=kwargs.get('second_secret'),
@@ -32,7 +35,8 @@ class RandtrixAssembler:
             seed_value = sum([int(x) for x in kwargs.get('six_d_seed')])
         except Exception as e:
             raise RandtrixException("Please Enter the 6 - digit integer seed value")
-        verify_hash_data = kwargs.get('first_secret') + kwargs.get('second_secret') + kwargs.get('third_secret') + str(seed_value)
+        verify_hash_data = kwargs.get('first_secret') + kwargs.get('second_secret') + kwargs.get('third_secret') + str(
+            seed_value)
         sha256_verify_hash = RandtrixTools.generate_verify_hash(verify_hash_data)
         entry_id = RandtrixDBManager.create({'profile_id': kwargs.get('profile_id'),
                                              'profile_pass': encrypted_msg,
@@ -56,7 +60,8 @@ class RandtrixAssembler:
             seed_value = sum([int(x) for x in kwargs.get('six_d_seed')])
         except Exception as e:
             raise RandtrixException("Please Enter the 6 - digit integer seed value")
-        verify_hash_data = kwargs.get('first_secret') + kwargs.get('second_secret') + kwargs.get('third_secret') + str(seed_value)
+        verify_hash_data = kwargs.get('first_secret') + kwargs.get('second_secret') + kwargs.get('third_secret') + str(
+            seed_value)
         sha256_verify_hash = RandtrixTools.generate_verify_hash(verify_hash_data)
         if sha256_verify_hash == data[0].get('verify_hash'):
             return MechanicObj.decrypt_pass(data[0].get('profile_pass'))

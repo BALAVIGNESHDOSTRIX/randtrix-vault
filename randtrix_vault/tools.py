@@ -30,11 +30,10 @@ class RandtrixTools:
             try:
                 data = int(data)
             except:
-                print("Profile not saved correctly")
+                if isinstance(data, str):
+                    print(data.format(profile_id=profile_id))
             if isinstance(data, int):
                 print("Profile Successfully saved.")
-            else:
-                print("Profile not saved correctly")
 
         if t == 'get':
             if data and isinstance(data, str):
