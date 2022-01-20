@@ -21,7 +21,7 @@ class RandtrixTools:
     """ Randtrix Tools """
 
     @staticmethod
-    def index_manipulate(index: int = 0) -> list[int] | None:
+    def index_manipulate(index: int = 0) -> List[int] or None:
         return {0: [index, index + 1], 1: [index + 1, index + 2], 2: [index + 2, index + 3]}.get(index)
 
     @staticmethod
@@ -44,6 +44,14 @@ class RandtrixTools:
                     print(Style.BRIGHT + Fore.RED + "Incorrect Password Combination entered...." + '\x00')
             elif not data:
                 print("Profile ID:", Style.BRIGHT + Fore.CYAN + profile_id + " not found" + '\x00')
+
+        if t == 'show':
+            if data and isinstance(data, list):
+                for entry in data:
+                    print(Style.BRIGHT + Fore.CYAN + entry.get('profile_id') + '\x00')
+            if not data:
+                print(Style.BRIGHT + Fore.CYAN + "No Profile ID'S not found" + '\x00')
+
 
     @staticmethod
     def generate_verify_hash(data: str) -> str:

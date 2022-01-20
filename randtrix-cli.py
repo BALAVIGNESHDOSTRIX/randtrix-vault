@@ -51,6 +51,13 @@ class RandtrixCLI(cmd2.Cmd):
             data = RandtrixAssembler.get_profile_pass(vals)
             RandtrixTools.parse_string(args.profile_id, data, t='get')
 
+        if args.command == 'show_all_profile_ids':
+            vals = {
+                'tags': args.tags or ''
+            }
+            data = RandtrixAssembler.get_profile_ids(vals)
+            RandtrixTools.parse_string(data=data, t='show')
+
     randtrix_parser = argparse.ArgumentParser(prog="randtrix",
                                               description="",
                                               conflict_handler='resolve',
@@ -74,6 +81,9 @@ class RandtrixCLI(cmd2.Cmd):
     subparser.add_argument('first_secret', help='First Secret', default=None)
     subparser.add_argument('second_secret', help='Second Secret', default=None)
     subparser.add_argument('third_secret', help='Third Secret', default=None)
+
+    subparser = subparsers.add_parser('show_all_profile_ids', help='Show All Profile ID')
+    subparser.add_argument('--tags', help='Tags', default=None)
 
     randtrix_parser.set_defaults(func=randtrix)
 

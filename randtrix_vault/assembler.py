@@ -19,7 +19,7 @@ from typing import *
 class RandtrixAssembler:
 
     @staticmethod
-    def create_new_profile_entry(kwargs: Any = None) -> int | str:
+    def create_new_profile_entry(kwargs: Any = None) -> Any:
         if kwargs is None:
             kwargs = {}
         seed_value = 0
@@ -45,7 +45,7 @@ class RandtrixAssembler:
         return entry_id
 
     @staticmethod
-    def get_profile_pass(kwargs: Any = None) -> str | None:
+    def get_profile_pass(kwargs: Any = None) -> Any:
         seed_value = 0
         if kwargs is None:
             kwargs = {}
@@ -67,3 +67,15 @@ class RandtrixAssembler:
             return MechanicObj.decrypt_pass(data[0].get('profile_pass'))
         else:
             return "null"
+
+    @staticmethod
+    def get_profile_ids(kwargs: Any = None) -> Any:
+        if kwargs is None:
+            kwargs = {}
+        data = RandtrixDBManager.get_all_profile_ids(kwargs)
+        if not data:
+            return ""
+        return data
+
+
+

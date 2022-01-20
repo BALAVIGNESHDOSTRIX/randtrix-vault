@@ -51,7 +51,7 @@ class RandtrixDBManager:
         return Database(DB_FILE)
 
     @staticmethod
-    def create(kwargs: Any = None) -> int | str:
+    def create(kwargs: Any = None) -> Any:
         if kwargs is None:
             kwargs = {}
         RandtrixDB.db = RandtrixDBManager.initialize_db()
@@ -75,4 +75,16 @@ class RandtrixDBManager:
         RandtrixDB.db = RandtrixDBManager.initialize_db()
         x = RandtrixDB.db.execute(
             'SELECT verify_hash FROM RandtrixDB WHERE id = "{pro_id}"'.format(pro_id=kwargs.get('id')))
+        return [dict(row) for row in x.fetchall()]
+
+    @staticmethod
+    def get_all_profile_ids(kwargs: Any = None) -> List:
+        if kwargs is None:
+            kwargs = {}
+        RandtrixDB.db = RandtrixDBManager.initialize_db()
+        profile_id_query = 'SELECT profile_id FROM RandtrixDB'
+        if kwargs.get('tags'):
+            profile_id_query += ' WHERE tags LIKE "{tags}"'.format(tags=kwargs.get('tags'))
+        profile_id_query += ' ORDER BY ID ASC'
+        x = RandtrixDB.db.execute(profile_id_query)
         return [dict(row) for row in x.fetchall()]
