@@ -15,6 +15,7 @@ from typing import List
 from colorama import init, Fore, Back, Style
 from hashlib import sha256
 from .config import *
+import os, sys
 
 
 class RandtrixTools:

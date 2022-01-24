@@ -33,7 +33,7 @@ def render_create_table_stmt(model):
     ''' Render a SQLite statement to create a table for an entity model '''
     sql = 'CREATE TABLE {table_name} (id integer primary key autoincrement, {column_def});'  # noqa
     column_definitions = ', '.join(render_column_definitions(model))
-    params = {'table_name': model.__name__, 'column_def': column_definitions}
+    params = {'table_name': model._tb_name, 'column_def': column_definitions}
     return sql.format(**params)
 
 
@@ -77,7 +77,7 @@ class Manager(object):
     def __init__(self, db, model, type_check=True):
         self.db = db
         self.model = model
-        self.table_name = model.__name__
+        self.table_name = model._tb_name
         self.type_check = type_check
         if not self._hastable():
             self.db.executescript(render_create_table_stmt(self.model))

@@ -1,6 +1,7 @@
 import argparse, cmd2
 from colorama import init, Fore, Back, Style
 from randtrix_vault.assembler import *
+from randtrix_vault.db import RandtrixDBManager
 from randtrix_vault.tools import *
 
 init(autoreset=True)
@@ -96,4 +97,5 @@ class RandtrixCLI(cmd2.Cmd):
 
 cli = RandtrixCLI()
 cli.debug = True
+RandtrixDBManager.generate_database_file()
 cli.cmdloop()

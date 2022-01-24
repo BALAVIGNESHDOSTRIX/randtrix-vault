@@ -19,14 +19,14 @@ VERIFY_HASH = "5da1cd00651"
 ## DB CONFIG
 DB_NAME = 'randtrix_db'
 DB_FILE = DB_NAME + '.' + 'sqlite'
+TABLE_NAME = 'randtrix_profile_manage'
 
 # MISC CONFIG
 SEPARATOR_KEY = '_rand_encode_sep_'
-SAFT_IMPUTER_CHR = '.'
+SAFE_IMPUTER_CHR = '.'
 BINARY_RANDOM_SEED = '100000'
 
 # DB ALERT MSG
 DB_MSG = {
     'aex': 'profile_id: {profile_id} - Already exists'
 }
-

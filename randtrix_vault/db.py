@@ -9,27 +9,17 @@
 #################################################################
 """
 
-from .orm import Manager, Model, Database
+from .orm import Model, Database
 from .config import *
 from typing import *
-
-
-class RandtrixManager(Manager):
-
-    def get_by_profile_id(self, profile_id='') -> object:
-        sql = 'SELECT * FROM {tb} WHERE profile_id LIKE %{pro_id}% = ?'.format(tb=self.table_name, pro_id=profile_id)
-        result = self.db.execute(sql)
-        row = result.fetchone()
-        if not row:
-            msg = 'Object%s with id does not exist: %s' % (self.model, id)
-            raise ValueError(msg)
-        return self.create(**row)
-
+import os
 
 class RandtrixModel(Model): pass
 
 
 class RandtrixDB(RandtrixModel):
+    _tb_name = TABLE_NAME
+
     profile_id = str
     profile_pass = str
     tags = str
@@ -65,7 +55,7 @@ class RandtrixDBManager:
             kwargs = {}
         RandtrixDB.db = RandtrixDBManager.initialize_db()
         x = RandtrixDB.db.execute(
-            'SELECT * FROM RandtrixDB WHERE profile_id LIKE "{pro_id}" limit 1'.format(pro_id=kwargs.get('profile_id')))
+            'SELECT * FROM {table_name} WHERE profile_id LIKE "{pro_id}" limit 1'.format(pro_id=kwargs.get('profile_id'), table_name=TABLE_NAME))
         return [dict(row) for row in x.fetchall()]
 
     @staticmethod
@@ -74,7 +64,7 @@ class RandtrixDBManager:
             kwargs = {}
         RandtrixDB.db = RandtrixDBManager.initialize_db()
         x = RandtrixDB.db.execute(
-            'SELECT verify_hash FROM RandtrixDB WHERE id = "{pro_id}"'.format(pro_id=kwargs.get('id')))
+            'SELECT verify_hash FROM {table_name} WHERE id = "{pro_id}"'.format(pro_id=kwargs.get('id'), table_name=TABLE_NAME))
         return [dict(row) for row in x.fetchall()]
 
     @staticmethod
@@ -82,9 +72,18 @@ class RandtrixDBManager:
         if kwargs is None:
             kwargs = {}
         RandtrixDB.db = RandtrixDBManager.initialize_db()
-        profile_id_query = 'SELECT profile_id FROM RandtrixDB'
+        profile_id_query = 'SELECT profile_id FROM {table_name}'.format(table_name=TABLE_NAME)
         if kwargs.get('tags'):
             profile_id_query += ' WHERE tags LIKE "{tags}"'.format(tags=kwargs.get('tags'))
         profile_id_query += ' ORDER BY ID ASC'
         x = RandtrixDB.db.execute(profile_id_query)
         return [dict(row) for row in x.fetchall()]
+
+    @staticmethod
+    def generate_database_file():
+        if not os.path.exists(DB_FILE):
+            db = RandtrixDBManager.initialize_db()
+            RandtrixDB.manager(db, RandtrixDB)
+            db.connection.commit()
+            db.close()
+        return True

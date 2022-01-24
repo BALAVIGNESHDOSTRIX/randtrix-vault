@@ -9,7 +9,7 @@
 #################################################################
 """
 
-import base64, pyaes
+import pyaes
 from typing import *
 from .exceptions import *
 from .config import *
@@ -17,9 +17,9 @@ from .config import *
 
 class AES16256Codec:
     def __init__(self, data: str, key: str, encrypted_data: str = " ", encode: bool = True) -> None:
-        if (str(data).endswith(SAFT_IMPUTER_CHR) and encode) or (str(data).startswith(SAFT_IMPUTER_CHR) and encode):
+        if (str(data).endswith(SAFE_IMPUTER_CHR) and encode) or (str(data).startswith(SAFE_IMPUTER_CHR) and encode):
             raise AESEncryptionException("Please do not enter the '{sf_imp}' endswith or '{sf_imp}' startswith "
-                                         "passwords".format(sf_imp=SAFT_IMPUTER_CHR))
+                                         "passwords".format(sf_imp=SAFE_IMPUTER_CHR))
         if SEPARATOR_KEY in data and not encode:
             data = ''.join(str(data).split(SEPARATOR_KEY))
         self.data = []
@@ -45,7 +45,7 @@ class AES16256Codec:
     def safe_imputer(list_d: List) -> List:
         initial_size = len(list_d)
         while initial_size < ENCODE_RANGE:
-            list_d.append(ord(SAFT_IMPUTER_CHR))
+            list_d.append(ord(SAFE_IMPUTER_CHR))
             initial_size += 1
         return list_d
 
@@ -68,7 +68,7 @@ class AES16256Codec:
                 decrypted_string += chr(dec_code)
         decrypted_string = decrypted_string[::-1]
         while True:
-            if decrypted_string.startswith(SAFT_IMPUTER_CHR):
+            if decrypted_string.startswith(SAFE_IMPUTER_CHR):
                 decrypted_string = decrypted_string[1:]
             else:
                 break

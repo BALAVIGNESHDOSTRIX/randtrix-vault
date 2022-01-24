@@ -22,7 +22,6 @@ class RandtrixAssembler:
     def create_new_profile_entry(kwargs: Any = None) -> Any:
         if kwargs is None:
             kwargs = {}
-        seed_value = 0
         data = RandtrixDBManager.get_by_profile_id(kwargs)
         if data:
             return DB_MSG.get('aex')
@@ -46,7 +45,6 @@ class RandtrixAssembler:
 
     @staticmethod
     def get_profile_pass(kwargs: Any = None) -> Any:
-        seed_value = 0
         if kwargs is None:
             kwargs = {}
         data = RandtrixDBManager.get_by_profile_id(kwargs)
@@ -76,6 +74,3 @@ class RandtrixAssembler:
         if not data:
             return ""
         return data
-
-
-

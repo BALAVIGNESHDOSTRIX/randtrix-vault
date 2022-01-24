@@ -1,4 +1,3 @@
-
 """
 ################################################################
 #                     THE RANDTRIX VAULT                        #
@@ -10,6 +9,8 @@
 #################################################################
 """
 
-class AESEncryptionException(Exception):pass
-class RandtrixException(Exception):pass
 
+class AESEncryptionException(Exception): pass
+
+
+class RandtrixException(Exception): pass
