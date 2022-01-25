@@ -16,7 +16,7 @@ from .config import *
 
 
 class AES16256Codec:
-    def __init__(self, data: str, key: str, encrypted_data: str = " ", encode: bool = True) -> None:
+    def __init__(self, data: str, key: str, encode: bool = True) -> None:
         if (str(data).endswith(SAFE_IMPUTER_CHR) and encode) or (str(data).startswith(SAFE_IMPUTER_CHR) and encode):
             raise AESEncryptionException("Please do not enter the '{sf_imp}' endswith or '{sf_imp}' startswith "
                                          "passwords".format(sf_imp=SAFE_IMPUTER_CHR))
@@ -25,7 +25,6 @@ class AES16256Codec:
         self.data = []
         self.key = key[:KEY_SIZE]
         self.aes_codec = pyaes.AES(self.key.encode('utf-8'))
-        self.encrypted_data = encrypted_data
 
         temp_data = [ord(c) for c in data]
         if not encode:
@@ -56,8 +55,7 @@ class AES16256Codec:
         for index, enc_code_l in enumerate(enc_lst):
             for enc_code in enc_code_l:
                 encrypted_string += chr(enc_code)
-            if index != size_of_enc_string:
-                encrypted_string += SEPARATOR_KEY
+            encrypted_string += SEPARATOR_KEY
         return encrypted_string
 
     def decrypt(self) -> str:

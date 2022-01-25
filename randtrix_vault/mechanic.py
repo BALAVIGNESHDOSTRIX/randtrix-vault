@@ -49,4 +49,4 @@ class RandtrixPasswordMechanic:
         return AES16256Codec(password, self.hash_2_salt()).encrypt()
 
     def decrypt_pass(self, data: str) -> str:
-        return AES16256Codec(data, self.hash_2_salt()).decrypt()
+        return AES16256Codec(data, self.hash_2_salt(), encode=False).decrypt()
